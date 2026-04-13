@@ -2,6 +2,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import type { OpenProjectClient } from "../client/index.js";
 import { OpenProjectError } from "../errors.js";
+import { checkProjectModule } from "../modules.js";
 
 export function registerTimeEntryTools(
   server: McpServer,
@@ -18,6 +19,7 @@ export function registerTimeEntryTools(
     async (params) => {
       try {
         const client = getClient();
+        if (params.projectId) await checkProjectModule(client, params.projectId, "time_tracking", "list_time_entries");
         const entries = await client.listTimeEntries({
           projectId: params.projectId,
           workPackageId: params.workPackageId,

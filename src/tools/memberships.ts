@@ -2,6 +2,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import type { OpenProjectClient } from "../client/index.js";
 import { OpenProjectError } from "../errors.js";
+import { checkProjectModule } from "../modules.js";
 
 export function registerMembershipTools(
   server: McpServer,
@@ -17,6 +18,7 @@ export function registerMembershipTools(
     async (params) => {
       try {
         const client = getClient();
+        if (params.projectId) await checkProjectModule(client, params.projectId, "members", "list_memberships");
         const memberships = await client.listMemberships({
           projectId: params.projectId,
           limit: params.limit,
@@ -59,6 +61,7 @@ export function registerMembershipTools(
     async (params) => {
       try {
         const client = getClient();
+        await checkProjectModule(client, params.projectId, "members", "create_membership");
         const membership = await client.createMembership({
           projectId: params.projectId,
           principalId: params.principalId,

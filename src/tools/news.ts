@@ -2,6 +2,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import type { OpenProjectClient } from "../client/index.js";
 import { OpenProjectError } from "../errors.js";
+import { assertProjectModule } from "../modules.js";
 
 export function registerNewsTools(
   server: McpServer,
@@ -23,6 +24,7 @@ export function registerNewsTools(
         if (projectRef) {
           const project = await client.resolveProject(projectRef);
           projectId = project.id;
+          assertProjectModule(project.name, (project as Record<string, unknown>)._links as Record<string, unknown> | undefined, "news", "list_news");
         }
         const news = await client.listNews({ projectId, limit: params.limit });
         if (news.length === 0) return { content: [{ type: "text", text: "No news found." }] };
@@ -69,6 +71,7 @@ export function registerNewsTools(
           throw new OpenProjectError("project is required unless OPENPROJECT_DEFAULT_PROJECT is set.");
         }
         const project = await client.resolveProject(projectRef);
+        assertProjectModule(project.name, (project as Record<string, unknown>)._links as Record<string, unknown> | undefined, "news", "create_news");
         const news = await client.createNews({
           title: params.title,
           projectId: project.id!,

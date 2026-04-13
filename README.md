@@ -53,6 +53,15 @@ Set these environment variables:
 | `OPENPROJECT_BASE_URL` | Yes | OpenProject base URL (e.g., `https://openproject.example.org`) |
 | `OPENPROJECT_API_TOKEN` | Yes | API token for authentication |
 | `OPENPROJECT_DEFAULT_PROJECT` | No | Default project ID/identifier when `project` param is omitted |
+| `OPENPROJECT_READ_ONLY` | No | Set to `true` to disable all write tools (create, update, delete) |
+
+### Startup Behavior
+
+On startup, the server automatically detects which OpenProject modules are enabled by querying the API root. Tools for disabled modules (time tracking, news, documents, budgets, versions, memberships, revisions, activities) are not registered. If detection fails, all tools are registered as a fallback.
+
+When `OPENPROJECT_READ_ONLY=true`, all write tools (`create_*`, `update_*`, `delete_*`, `add_comment`, `execute_custom_action`, `mark_notification_read`) are excluded.
+
+The server also performs per-project module checks at runtime — if a tool requires a module that is disabled for a specific project, a clear error is returned.
 
 ## MCP Integration
 

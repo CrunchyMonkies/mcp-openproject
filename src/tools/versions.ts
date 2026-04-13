@@ -3,6 +3,7 @@ import { z } from "zod";
 import type { OpenProjectClient } from "../client/index.js";
 import { OpenProjectError } from "../errors.js";
 import { truncate } from "../helpers.js";
+import { checkProjectModule } from "../modules.js";
 
 export function registerVersionTools(
   server: McpServer,
@@ -18,6 +19,7 @@ export function registerVersionTools(
       try {
         const client = getClient();
         const project = await client.resolveProject(params.project);
+        await checkProjectModule(client, project.id, "versions", "list_versions");
         const versions = await client.listVersions(project.id);
         if (versions.length === 0) return { content: [{ type: "text", text: "No versions found." }] };
         const lines = ["ID   Name                           Status     Start       End", "---  -----------------------------  ---------  ----------  ----------"];
@@ -71,6 +73,7 @@ export function registerVersionTools(
       try {
         const client = getClient();
         const project = await client.resolveProject(params.project);
+        await checkProjectModule(client, project.id, "versions", "create_version");
         const version = await client.createVersion({
           name: params.name,
           projectId: project.id,

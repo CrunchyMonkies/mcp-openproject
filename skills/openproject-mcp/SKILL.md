@@ -26,6 +26,16 @@ metadata:
 | `OPENPROJECT_BASE_URL` | Yes | OpenProject base URL |
 | `OPENPROJECT_API_TOKEN` | Yes | API token for authentication |
 | `OPENPROJECT_DEFAULT_PROJECT` | No | Default project ID/identifier when `project` param is omitted |
+| `OPENPROJECT_READ_ONLY` | No | Set to `true` to disable all write tools (create, update, delete) |
+
+## Startup Behavior
+
+On startup, the server:
+
+1. **Detects enabled modules** by querying the OpenProject API root. Tools for disabled modules (time tracking, news, documents, budgets, versions, memberships, revisions, activities) are not registered. If detection fails, all tools are registered as a fallback.
+2. **Applies read-only mode** when `OPENPROJECT_READ_ONLY=true`. All write tools (`create_*`, `update_*`, `delete_*`, `add_comment`, `execute_custom_action`, `mark_notification_read`) are skipped during registration.
+
+When a tool is called for a specific project, the server also checks whether the required module is enabled for that project. If disabled, the tool returns a clear error indicating which module needs to be enabled in OpenProject project settings.
 
 ## Core Tools (Quick Reference)
 
@@ -89,6 +99,7 @@ Use `update_work_package_status` for status-only changes. Status changes are **t
 - **Type names are instance-specific.** One OpenProject instance might use `Bug`, another `Defect`. Never hardcode type names — always call `list_types` first.
 - **`update_work_package` requires the current lock version.** The tool handles this internally, but rapid sequential updates to the same work package can fail with a conflict. Re-fetch with `get_work_package` and retry.
 - **`weekly_summary` scopes to the last 7 days.** It uses recently-changed work packages, not all work packages. For a full project overview, use `list_work_packages` instead.
+- **Module availability is per-project.** A module enabled server-wide may be disabled for a specific project. The server checks project-level module status and returns a clear error if the required module is disabled. Enable modules in OpenProject under Project Settings > Modules.
 
 ## Output Style
 

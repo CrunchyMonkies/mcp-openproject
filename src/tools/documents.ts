@@ -2,6 +2,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import type { OpenProjectClient } from "../client/index.js";
 import { OpenProjectError } from "../errors.js";
+import { checkProjectModule } from "../modules.js";
 
 export function registerDocumentTools(
   server: McpServer,
@@ -17,6 +18,7 @@ export function registerDocumentTools(
     async (params) => {
       try {
         const client = getClient();
+        if (params.projectId) await checkProjectModule(client, params.projectId, "documents", "list_documents");
         const documents = await client.listDocuments({
           projectId: params.projectId,
           limit: params.limit,
