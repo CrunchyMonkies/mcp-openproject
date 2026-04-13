@@ -1,6 +1,6 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import type { OpenProjectClient } from "../client.js";
+import type { OpenProjectClient } from "../client/index.js";
 import { OpenProjectError } from "../errors.js";
 import {
   extractFormattableText,
@@ -201,6 +201,24 @@ export function registerWorkPackageTools(
         return {
           content: [{ type: "text", text: `Updated work package #${updated.id} to status '${newStatus}'.` }],
         };
+      } catch (err) {
+        const message = err instanceof OpenProjectError ? err.message : String(err);
+        return { content: [{ type: "text", text: `Error: ${message}` }], isError: true };
+      }
+    },
+  );
+
+  server.tool(
+    "delete_work_package",
+    "Delete a work package by ID.",
+    {
+      id: z.number().int().describe("Work package ID."),
+    },
+    async (params) => {
+      try {
+        const client = getClient();
+        await client.deleteWorkPackage(params.id);
+        return { content: [{ type: "text", text: `Deleted work package #${params.id}` }] };
       } catch (err) {
         const message = err instanceof OpenProjectError ? err.message : String(err);
         return { content: [{ type: "text", text: `Error: ${message}` }], isError: true };

@@ -32,8 +32,8 @@ export interface WorkPackage extends HalResource {
   subject: string;
   lockVersion: number;
   description?: { raw: string } | string;
-  startDate?: string;
-  dueDate?: string;
+  startDate?: string | null;
+  dueDate?: string | null;
   createdAt?: string;
   updatedAt?: string;
 }

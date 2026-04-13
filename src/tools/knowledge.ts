@@ -1,6 +1,6 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import type { OpenProjectClient } from "../client.js";
+import type { OpenProjectClient } from "../client/index.js";
 import { OpenProjectError } from "../errors.js";
 import { linkTitle, statusBucket } from "../helpers.js";
 import type { Project, WorkPackage } from "../types.js";
@@ -13,7 +13,7 @@ function wpLine(wp: WorkPackage): string {
   return `- #${id} ${subject} (${status}; ${assignee})`;
 }
 
-function buildWeeklySummary(project: Project, workPackages: WorkPackage[]): string {
+export function buildWeeklySummary(project: Project, workPackages: WorkPackage[]): string {
   const completed: WorkPackage[] = [];
   const inProgress: WorkPackage[] = [];
   const blockers: WorkPackage[] = [];
@@ -67,7 +67,7 @@ function buildWeeklySummary(project: Project, workPackages: WorkPackage[]): stri
   return lines.join("\n");
 }
 
-function buildDecisionMarkdown(
+export function buildDecisionMarkdown(
   dateText: string,
   project: string,
   title: string,

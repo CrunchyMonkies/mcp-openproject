@@ -1,6 +1,6 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import type { OpenProjectClient } from "../client.js";
+import type { OpenProjectClient } from "../client/index.js";
 import { OpenProjectError } from "../errors.js";
 
 export function registerCommentTools(

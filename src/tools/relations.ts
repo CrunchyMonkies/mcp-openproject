@@ -1,6 +1,6 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import { RELATION_TYPES, type OpenProjectClient } from "../client.js";
+import { RELATION_TYPES, type OpenProjectClient } from "../client/index.js";
 import { OpenProjectError } from "../errors.js";
 import { linkTitle, truncate } from "../helpers.js";
 import type { Relation } from "../types.js";
@@ -74,6 +74,42 @@ export function registerRelationTools(
             text: `Created relation #${relation.id}: #${params.fromId} ${relation.type} #${params.toId}.`,
           }],
         };
+      } catch (err) {
+        const message = err instanceof OpenProjectError ? err.message : String(err);
+        return { content: [{ type: "text", text: `Error: ${message}` }], isError: true };
+      }
+    },
+  );
+
+  server.tool(
+    "get_relation",
+    "Get details for a single relation by ID.",
+    {
+      id: z.number().int().describe("Relation ID."),
+    },
+    async (params) => {
+      try {
+        const client = getClient();
+        const relation = await client.getRelation(params.id);
+        return { content: [{ type: "text", text: JSON.stringify(relation, null, 2) }] };
+      } catch (err) {
+        const message = err instanceof OpenProjectError ? err.message : String(err);
+        return { content: [{ type: "text", text: `Error: ${message}` }], isError: true };
+      }
+    },
+  );
+
+  server.tool(
+    "delete_relation",
+    "Delete a relation by ID.",
+    {
+      id: z.number().int().describe("Relation ID."),
+    },
+    async (params) => {
+      try {
+        const client = getClient();
+        await client.deleteRelation(params.id);
+        return { content: [{ type: "text", text: `Deleted relation #${params.id}` }] };
       } catch (err) {
         const message = err instanceof OpenProjectError ? err.message : String(err);
         return { content: [{ type: "text", text: `Error: ${message}` }], isError: true };
