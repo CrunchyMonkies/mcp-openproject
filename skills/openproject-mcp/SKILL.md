@@ -1,19 +1,16 @@
 ---
 name: openproject-mcp
-description: OpenProject project management MCP server — 91 tools for work packages, time tracking, Gantt charts, boards, and more
-triggers:
-  - openproject
-  - project management
-  - work packages
-  - gantt
-  - scrum
-  - time tracking
-argument-hint: "<command>"
+description: OpenProject project management MCP server — 84 tools for work packages, time tracking, Gantt charts, boards, and more. Use when managing projects, sprints, scrum, or any OpenProject resource.
+license: MIT
+compatibility: Requires Node.js 18+ and an OpenProject instance with API v3 access
+metadata:
+  author: CrunchyMonkies
+  version: "1.0.0"
 ---
 
 # OpenProject MCP Server Skill
 
-A full-featured MCP server for [OpenProject](https://www.openproject.org/) exposing 91 tools across projects, work packages, time tracking, users, groups, memberships, boards, queries, views, and more.
+A full-featured MCP server for [OpenProject](https://www.openproject.org/) exposing 84 tools across projects, work packages, time tracking, users, groups, memberships, boards, queries, views, and more.
 
 ## Installation
 
@@ -272,31 +269,32 @@ npx @crunchymonkies/mcp-openproject
 
 ## Module Reference Index
 
-Detailed module documentation lives in `modules/`. Each file covers the tools, parameters, response shapes, and usage patterns for a specific domain.
+Detailed module documentation lives in `modules/`. Each file covers the features, parameters, and usage patterns for a specific OpenProject domain.
 
 | Module | Description |
 |--------|-------------|
-| `modules/projects.md` | Project CRUD, identifiers, status, and custom fields |
-| `modules/work-packages.md` | Work package lifecycle, filters, transitions, and bulk ops |
-| `modules/time-entries.md` | Time logging, activity types, and reporting |
-| `modules/users-groups.md` | User management, group membership, and principal lookup |
-| `modules/memberships.md` | Project membership roles and access control |
-| `modules/relations.md` | Dependency types, lag, and relation graph traversal |
-| `modules/versions.md` | Sprint/milestone versioning and date ranges |
-| `modules/queries.md` | Saved filters, sorting, and column configuration |
-| `modules/views.md` | Board, Gantt, team planner, and calendar views |
-| `modules/notifications.md` | User notification inbox and read state |
-| `modules/attachments.md` | File attachment retrieval and cleanup |
-| `modules/file-links.md` | External file storage links |
-| `modules/news.md` | Project news and announcements |
-| `modules/documents.md` | Document storage per project |
-| `modules/activities.md` | Work package audit trail and journal |
-| `modules/revisions.md` | Source control revision references |
-| `modules/budgets.md` | Project budget tracking |
-| `modules/metadata.md` | Statuses, types, priorities, roles, categories, schemas |
-| `modules/schedule.md` | Working days, non-working days, and calendar config |
-| `modules/configuration.md` | Server configuration and capability discovery |
-| `modules/knowledge.md` | AI-generated weekly summaries and decision logs |
+| `modules/activity.md` | Audit trail of changes, comments, @mentions, reactions |
+| `modules/backlogs.md` | Scrum backlogs, sprint planning, story points, burndown |
+| `modules/boards.md` | Kanban-style card views, basic and action boards |
+| `modules/budgets.md` | Planned labor/unit costs, budget vs actual tracking |
+| `modules/calendar.md` | Date-based visual view of scheduled work packages |
+| `modules/cost-tracking.md` | Unit cost entries linked to work packages |
+| `modules/documents.md` | Document upload, organization, and categorization |
+| `modules/file-storage.md` | Attachments and cloud storage integrations (Nextcloud, OneDrive, SharePoint) |
+| `modules/forums.md` | Threaded project discussions, sticky/locked topics |
+| `modules/gantt-charts.md` | Timeline visualization, dependencies, auto/manual scheduling |
+| `modules/meetings.md` | Meeting planning, agendas, attendees, action items |
+| `modules/members.md` | Project access, roles, groups, user status |
+| `modules/news.md` | Project announcements and email notifications |
+| `modules/notifications.md` | In-app alerts, notification center, read state |
+| `modules/portfolios.md` | Multi-project overview for program/portfolio managers |
+| `modules/project-overview.md` | Configurable dashboard with widget-based layout |
+| `modules/repository.md` | Git/SVN integration, changesets, commit-to-WP links |
+| `modules/team-planner.md` | Calendar-based resource planning per assignee (Enterprise) |
+| `modules/time-tracking.md` | Time logging, activity types, effort vs estimates |
+| `modules/versions.md` | Release/sprint planning, roadmap view, progress bars |
+| `modules/wiki.md` | Collaborative documentation, WYSIWYG, hierarchical pages |
+| `modules/work-packages.md` | Core WP lifecycle, types, custom fields, attributes |
 
 ---
 
@@ -306,13 +304,19 @@ Step-by-step workflow documentation lives in `workflows/`. Each file covers a co
 
 | Workflow | Description |
 |----------|-------------|
-| `workflows/sprint-planning.md` | Set up a version, create work packages, assign members |
-| `workflows/status-reporting.md` | Generate weekly summaries and decision logs |
-| `workflows/onboarding-project.md` | Create project, configure memberships and categories |
-| `workflows/time-tracking.md` | Log, review, and update time entries for a work package |
-| `workflows/dependency-mapping.md` | Map blockers and follows chains across work packages |
-| `workflows/board-setup.md` | Create and configure Kanban/Scrum board views |
-| `workflows/gantt-scheduling.md` | Schedule work packages with versions and date constraints |
-| `workflows/user-management.md` | Create users, assign groups, and manage project access |
-| `workflows/query-reporting.md` | Build and save filtered queries for recurring reports |
-| `workflows/notification-triage.md` | Process and clear the notification inbox |
+| `workflows/agile-workflow.md` | Flow-based Kanban delivery without fixed sprints |
+| `workflows/document-collaboration.md` | Documentation management and review coordination |
+| `workflows/issue-tracking-lifecycle.md` | Bug/issue from creation through triage to resolution |
+| `workflows/meeting-management.md` | Meeting action items, outcomes, and follow-up tracking |
+| `workflows/okr-management.md` | Quarterly OKRs with linked delivery work |
+| `workflows/pm2-pmflex.md` | EU public sector PM2/PMflex methodology with phase gates |
+| `workflows/portfolio-management.md` | Cross-project visibility for program managers |
+| `workflows/project-setup.md` | New project initialization with team and backlog |
+| `workflows/release-management.md` | Release scoping through delivery coordination |
+| `workflows/safe-framework.md` | Scaled Agile Framework for multi-team programs |
+| `workflows/sprint-planning.md` | Scrum sprint setup, assignment, and tracking |
+| `workflows/stakeholder-reporting.md` | Progress reports for sponsors, clients, management |
+| `workflows/team-workload-management.md` | Workload balancing and over-allocation detection |
+| `workflows/test-management.md` | Test cases and execution cycles via custom WP types |
+| `workflows/time-and-cost-reporting.md` | Budget visibility, invoicing support, overrun detection |
+| `workflows/waterfall-workflow.md` | Sequential phases, milestones, baseline tracking |
