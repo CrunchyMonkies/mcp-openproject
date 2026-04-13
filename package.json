@@ -1,6 +1,6 @@
 {
   "name": "@crunchymonkies/mcp-openproject",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "MCP server for OpenProject project management via API v3",
   "type": "module",
   "main": "dist/index.js",
