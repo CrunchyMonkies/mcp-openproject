@@ -34,7 +34,7 @@ import { registerConfigurationTools } from "./tools/configuration.js";
 
 const server = new McpServer({
   name: "mcp-openproject",
-  version: "1.0.2",
+  version: "1.0.4",
 });
 
 function getClient(): OpenProjectClient {
